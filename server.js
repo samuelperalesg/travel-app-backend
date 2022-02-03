@@ -77,19 +77,17 @@ app.get("/", (req, res) => {
 });
 
 // index route
-app.get("/locations", isAuthenticated, async (req, res) => {
+app.get("/locations", async (req, res) => {
     try {
-        res.json(await Travel.find({ uid: req.user.uid }));
+        res.json(await Travel.find({}));
     } catch (error) {
         res.status(400).json(error);
     }
 });
 
 // create route
-app.post("/locations", isAuthenticated, async (req, res) => {
-    const token = req.get('Authorization')
+app.post("/locations", async (req, res) => {
     try {
-        req.body.uid = req.user.uid
         res.json(await Travel.create(req.body));
     } catch (error) {
         res.status(400).json(error);
@@ -99,7 +97,7 @@ app.post("/locations", isAuthenticated, async (req, res) => {
 // delete
 app.delete("/locations/:id", async (req, res) => {
     try {
-        res.json(await People.findByIdAndDelete(req.params.id));
+        res.json(await Travel.findByIdAndDelete(req.params.id));
     } catch (error) {
         res.status(400).json(error);
     }
