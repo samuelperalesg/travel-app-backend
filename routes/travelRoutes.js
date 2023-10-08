@@ -6,9 +6,6 @@ const { firebaseAuth, isAuthenticated } = require('../middlewares/auth');
 router.use(firebaseAuth);
 
 // routes
-router.get("/", isAuthenticated, (req, res, next) => {
-  res.send("Vacation Planner");
-});
 
 // index route
 router.get("/locations", isAuthenticated, async (req, res, next) => {
