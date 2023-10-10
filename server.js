@@ -48,25 +48,25 @@ app.use(cors({
 app.use(express.json());
 
 
-// app.get('/api/unsplash/random', async (req, res) => {
-//     const unsplashUrl = `https://api.unsplash.com/photos/random?query=vacation,beach,tropical,paradise&count=5&client_id=${process.env.ACCESS_KEY}`;
+app.get('/api/unsplash/random', async (req, res) => {
+    const unsplashUrl = `https://api.unsplash.com/photos/random?query=vacation,beach,tropical,paradise&count=5&client_id=${process.env.ACCESS_KEY}`;
     
-//     try {
-//         const response = await fetch(unsplashUrl, {
-//             method: 'GET',
-//             headers: {
-//                 'Accept-Version': 'v1',
-//                 'Authorization': `Client-ID ${process.env.ACCESS_KEY}`
-//             }
-//         });
+    try {
+        const response = await fetch(unsplashUrl, {
+            method: 'GET',
+            headers: {
+                'Accept-Version': 'v1',
+                'Authorization': `Client-ID ${process.env.ACCESS_KEY}`
+            }
+        });
 
-//         const data = await response.json();
-//         res.json(data);
-//     } catch (error) {
-//         console.error('Error fetching from Unsplash:', error);
-//         res.status(500).json({ error: 'Failed to fetch from Unsplash' });
-//     }
-// });
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        console.error('Error fetching from Unsplash:', error);
+        res.status(500).json({ error: 'Failed to fetch from Unsplash' });
+    }
+});
 
 app.use(firebaseAuth);
 app.use(isAuthenticated);
