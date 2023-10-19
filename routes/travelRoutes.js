@@ -7,22 +7,24 @@ router.use(firebaseAuth);
 
 // routes
 
-// index route
+// Timeline route
 router.get("/locations", isAuthenticated, async (req, res, next) => {
   try {
-    const locations = await Travel.find({});
-    if (!locations) {
-      return res.status(404).json({ error: "No locations found." });
+    const locations = await Travel.find({ uid: req.user.uid });
+
+    if (!locations || locations.length === 0) {
+      return res.json({ message: "No locations found.", locations: [] });
     }
+
     res.json(locations);
   } catch (error) {
+    console.error("Error while fetching locations:", error.message);
     res.status(400).json({ error: error.message });
   }
 });
 
 // create route
 router.post("/locations", isAuthenticated, async (req, res, next) => {
-
   if (!req.body.name || !req.body.image) {
     return res.status(400).send("Name and Image are required.");
   }
@@ -86,6 +88,11 @@ router.delete("/locations/:id", isAuthenticated, async (req, res, next) => {
     console.error("Error in DELETE /locations/:id:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
+});
+
+router.use((err, req, res, next) => {
+  console.error("An unexpected error occurred:", err.message);
+  res.status(500).json({ error: err.message });
 });
 
 module.exports = router;
