@@ -12,6 +12,11 @@ const fetch = require('node-fetch');
 // Initalize the express app
 const app = express();
 
+const corsOptions = {
+    origin: 'https://worldtraveler.onrender.com', // or a list of valid origins
+    optionsSuccessStatus: 200
+};
+
 // configuring server settings
 require("dotenv").config();
 
@@ -42,9 +47,7 @@ db
 
 // mount middleware
 app.use(morgan("dev"));
-app.use(cors({
-    origin: 'http://localhost:3000' // Allow only this origin
-}));
+app.use(cors(corsOptions));
 app.use(express.json());
 
 
